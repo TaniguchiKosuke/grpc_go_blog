@@ -27,6 +27,6 @@ func NewDB() *DB {
 
 	db := new(DB)
 	db.Conn = conn
-	
+
 	return db
 }
