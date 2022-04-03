@@ -1,0 +1,30 @@
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/go/src/app
+    # depends_on:
+    #   - postgres
+  redis:
+    image: "redis:alpine"
+  # postgres:
+  #   image: postgres:alpine
+  #   restart: always
+  #   environment: 
+  #     POSTGRES_USER: kosuke
+  #     POSTGRES_PASSWORD: grpc_go_blog
+  #     POSTGRES_DB: grpc_go_blog_db
+  #     POSTGRES_HOST: localhost
+  #     TZ: Asia/Tokyo
+  #     PGTZ: Asia/Tokyo
+  #   ports:
+  #     - 5433:5432
+  #   volumes:
+  #     - postgres:/var/lib/postgresql/data
+  #     - ./config/db:/docker-entrypoint-initdb.d
+
+# volumes:
+#   postgres:

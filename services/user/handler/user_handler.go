@@ -2,10 +2,11 @@ package handler
 
 import (
 	"context"
+	"log"
+
 	"grpc_go_blog/services/user/handler/proto"
 	"grpc_go_blog/services/user/usecase"
 	"grpc_go_blog/services/user/usecase/input"
-	"log"
 )
 
 type UserHandler struct {
