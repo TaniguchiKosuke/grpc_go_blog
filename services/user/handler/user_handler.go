@@ -2,10 +2,14 @@ package handler
 
 import (
 	"context"
+	"log"
+
 	"grpc_go_blog/services/user/handler/proto"
 	"grpc_go_blog/services/user/usecase"
 	"grpc_go_blog/services/user/usecase/input"
-	"log"
+
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 type UserHandler struct {
@@ -28,7 +32,7 @@ func (uh *UserHandler) Signup(ctx context.Context, req *proto.SignupRequest) (*p
 	createdUser, err := uh.userUsecase.Signup(user)
 	if err != nil {
 		log.Println(err.Error())
-		return nil, err
+		return nil, status.Error(codes.Internal, "internal server error")
 	}
 
 	return &proto.SignupResponse{
