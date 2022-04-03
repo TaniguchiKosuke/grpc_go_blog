@@ -1,6 +1,7 @@
 package output
 
 type SignupUserResponse struct {
+	ID       string
 	Username string
-	Password string
+	Email    string
 }

@@ -4,18 +4,36 @@ import (
 	"context"
 	"grpc_go_blog/services/user/handler/proto"
 	"grpc_go_blog/services/user/usecase"
+	"grpc_go_blog/services/user/usecase/input"
+	"log"
 )
 
 type UserHandler struct {
 	proto.UnimplementedUserServiceServer
 
-	useUsecase usecase.UserUsecaseIF
+	userUsecase usecase.UserUsecaseIF
 }
 
 func NewUserHandler(userUsecase usecase.UserUsecaseIF) *UserHandler {
-	return &UserHandler{useUsecase: userUsecase}
+	return &UserHandler{userUsecase: userUsecase}
 }
 
 func (uh *UserHandler) Signup(ctx context.Context, req *proto.SignupRequest) (*proto.SignupResponse, error) {
-	return nil, nil
+	user := &input.SignupUserRequest{
+		Username: req.Username,
+		Email:    req.Email,
+		Password: req.Password,
+	}
+
+	createdUser, err := uh.userUsecase.Signup(user)
+	if err != nil {
+		log.Println(err.Error())
+		return nil, err
+	}
+
+	return &proto.SignupResponse{
+		Id:       createdUser.ID,
+		Username: createdUser.Username,
+		Email:    createdUser.Email,
+	}, nil
 }

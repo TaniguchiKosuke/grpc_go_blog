@@ -7,15 +7,19 @@ import (
 )
 
 type UserRepository struct {
-	db *db.DB
+	*db.DB
 }
 
 func NewUserRepository(db *db.DB) repository.UserRepositoryIF {
-	return &UserRepository{db: db}
+	return &UserRepository{db}
 }
 
 func (ur *UserRepository) CreateUser(user *entity.User) (*entity.User, error) {
-	return nil, nil
+	if err := ur.Conn.Create(&user).Error; err != nil {
+		return nil, err
+	}
+
+	return user, nil
 }
 
 func (ur *UserRepository) GetUserByEmail(email string) (*entity.User, error) {
